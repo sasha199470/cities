@@ -1,0 +1,19 @@
+{
+  "name": "cities-front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-js": "browserify js/main.js > js/bundle.js -d",
+    "watch-js": "watchify js/main.js -o js/bundle.js -d"
+  },
+  "author": "Alexandra Belogur",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io-client": "^2.0.4"
+  },
+  "devDependencies": {
+    "browserify": "^16.0.0",
+    "watchify": "^3.10.0"
+  }
+}
