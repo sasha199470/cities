@@ -5,17 +5,19 @@ var io = require('socket.io')(http);
 
 var mainPage = `${__dirname}/front/index.html`;
 
-app.get('/', function(req, res){
+app.get('/',  (req, res) => {
     res.sendFile(mainPage);
 });
-io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.on('disconnect', function(){
+
+io.on('connection',  (socket) => {
+    let i = 0;
+    console.log(i++);
+    socket.on('disconnect', () => {
         console.log('user disconnected');
     });
 });
-http.listen(3000, function(){
+http.listen(3000,  () => {
     console.log('listening on *:3000');
 });
-
 app.use("/static", express.static(`${__dirname}/front/js`));
+app.use("/static", express.static(`${__dirname}/front/css`))

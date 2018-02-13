@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Города</title>
-    <!--<link rel="stylesheet" href="style.css">-->
+    <link rel="stylesheet" type="text/css" href="static/style.css">
 </head>
 <body>
-    hello
-<script src="static/bundle.js"></script>
+    <div>
+        <label for="input">Введите город: </label>
+        <input id="input" type="text">
+        <button id="inputBtn">Отправить</button>
+    </div>
+    <div id="map"></div>
+    <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script src="static/bundle.js"></script>
 </body>
 </html>
