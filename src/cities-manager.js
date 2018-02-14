@@ -4,7 +4,7 @@ let SortedSet = require('collections/sorted-set');
 let _binarySearch = require('./utils.js')
 
 function CitiesManager() {
-    this._lastLatter;
+    this._lastLetter;
     this._mentionedCities = {};
     for (key in cities) {
         this._mentionedCities[key] = new SortedSet();
@@ -21,7 +21,7 @@ CitiesManager.prototype.inputCity = function(cityName)  {
    if (!cityName) {
        return inputStatus.NONE;
    }
-    if (this._lastLetter && cityName[0] !== this.lastLetter) {
+    if (this._lastLetter && !Object.is(cityName[0],this._lastLetter)) {
         return inputStatus.BAD_CITY;
     }
     if (this._isMentioned(cityName)) {
@@ -31,9 +31,24 @@ CitiesManager.prototype.inputCity = function(cityName)  {
         return inputStatus.NO_EXIST;
     }
     this._addMentioned(cityName);
-    this._lastLatter = _newLastLetter(cityName);
+    this._lastLetter = _newLastLetter(cityName);
+    console.log(this._lastLetter);
     return inputStatus.OK;
 
+};
+CitiesManager.prototype.aiTurn = function() {
+    let subList = cities[this._lastLetter] || [];
+    let cityName;
+    for (let i = 0; i < subList.length; i++) {
+        if (!this._isMentioned(subList[i])) {
+            cityName = subList[i];
+            this._addMentioned(cityName);
+            this._lastLetter = _newLastLetter(cityName);
+            break;
+        }
+    }
+
+    return cityName;
 };
 function _isExsist(cityName) {
     return _binarySearch(cityName, cities[cityName[0]]) !== -1 ? true : false;
