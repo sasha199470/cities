@@ -20,3 +20,5 @@ function _binarySearch(value, array) {
     }
     return -1;
 }
+
+module.exports = _binarySearch;

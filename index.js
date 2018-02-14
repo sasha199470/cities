@@ -1,19 +1,22 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+let express = require('express');
+let app = express();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+let CitiesManager = require('./src/cities-manager.js');
 
-var mainPage = `${__dirname}/front/index.html`;
+
+let mainPage = `${__dirname}/front/index.html`;
 
 app.get('/',  (req, res) => {
     res.sendFile(mainPage);
 });
 
 io.on('connection',  (socket) => {
-    let i = 0;
-    console.log(i++);
+
+    let citiesManager = new CitiesManager();
     socket.on('send city', (city) => {
-        console.log(city);
+        let status = citiesManager.inputCity(city);
+        message.wo
     });
     socket.on('disconnect', () => {
         console.log('user disconnected');
