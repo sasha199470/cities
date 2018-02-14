@@ -7,9 +7,14 @@
 </head>
 <body>
     <div>
+        <div>
+            <span>Последний город: </span><span id="lastCity"></span>
+        </div>
         <label for="input">Введите город: </label>
         <input id="input" type="text">
         <button id="inputBtn">Отправить</button>
+        <button id="speakBtn">Говорить</button>
+        <div id="error"></div>
     </div>
     <div id="map"></div>
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=ru-RU" type="text/javascript"></script>

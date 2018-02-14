@@ -12,6 +12,9 @@ app.get('/',  (req, res) => {
 io.on('connection',  (socket) => {
     let i = 0;
     console.log(i++);
+    socket.on('send city', (city) => {
+        console.log(city);
+    });
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
