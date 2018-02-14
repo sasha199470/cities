@@ -6,8 +6,10 @@ let _binarySearch = require('./utils.js')
 function CitiesManager() {
     this._lastLetter;
     this._mentionedCities = {};
+    this._indexCities = {}
     for (key in cities) {
         this._mentionedCities[key] = new SortedSet();
+        this._indexCities[key] = 0;
     }
     this._isMentioned = (cityName) => {
         return (this._mentionedCities[cityName[0]] || []) .has(cityName);
@@ -39,10 +41,11 @@ CitiesManager.prototype.inputCity = function(cityName)  {
 CitiesManager.prototype.aiTurn = function() {
     let subList = cities[this._lastLetter] || [];
     let cityName;
-    for (let i = 0; i < subList.length; i++) {
+    for (let i = this._indexCities[key]; i < subList.length; i++) {
         if (!this._isMentioned(subList[i])) {
             cityName = subList[i];
             this._addMentioned(cityName);
+            this._indexCities[this._lastLetter] = i + 1;
             this._lastLetter = _newLastLetter(cityName);
             break;
         }
