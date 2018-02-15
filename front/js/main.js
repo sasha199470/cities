@@ -1,11 +1,15 @@
 let speech = require('./speech.js');
 let socket = require('socket.io-client')('http://localhost:3000');
 
+let player = [];
+let computer = [];
 
 let inputBtn = document.getElementById('inputBtn'),
     inputEl = document.getElementById('input'),
     speakBtn = document.getElementById('speakBtn'),
     lastCityEl = document.getElementById('lastCity'),
+    surrenderBtn = document.getElementById('surrender'),
+    listEl = document.getElementById('list'),
     errorEl = document.getElementById('error');
 
 ymaps.ready(() => {
@@ -19,7 +23,8 @@ ymaps.ready(() => {
         errorEl.innerHTML = "";
         switch (status.code) {
             case 0 :{
-                addMarker(map,city)
+                addMarker(map,city);
+                player.push(city);
             }
                 break;
             default : {
@@ -32,9 +37,11 @@ ymaps.ready(() => {
             inputEl.value = "";
             lastCityEl.innerHTML = word;
             addMarker(map,word);
+            computer.push(word);
         }
         else {
-            errorEl.innerHTML = 'Вы выиграли'
+            errorEl.innerHTML = 'Вы выиграли';
+            endGame();
         }
     });
     inputBtn.addEventListener('click', () => {
@@ -64,7 +71,22 @@ function addMarker(map,cityName) {
             err => console.log('Ошибка'));
 }
 speakBtn.addEventListener('click', () => speech(inputEl, errorEl));
+surrenderBtn.addEventListener('click',()=>{
+    endGame();
+});
 
 function inputCity(inputedCityName) {
     socket.emit('send city', inputedCityName);
+}
+function endGame() {
+    inputBtn.disabled = true;
+    socket.ondisconnect();
+    if (player.length > computer.length) {
+        computer[computer.length] = "";
+    }
+    let list = 'player computer <br>';
+    for (let i=0;i<player.length;i++) {
+        list += player[i] + " " + computer[i] + '<br>';
+    }
+    listEl.innerHTML = list;
 }

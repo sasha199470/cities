@@ -1,5 +1,9 @@
 #map {
 	width: 1000px;
 	height: 600px;
+	margin-left: 20px;
+}
+.flex {
+	display: flex;
 	margin-top: 20px;
 }
