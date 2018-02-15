@@ -34,7 +34,6 @@ CitiesManager.prototype.inputCity = function(cityName)  {
     }
     this._addMentioned(cityName);
     this._lastLetter = _newLastLetter(cityName);
-    console.log(this._lastLetter);
     return inputStatus.OK;
 
 };
