@@ -16,13 +16,13 @@ function speech(inputEl, errorEl) {
         noRecognized = false;
         errorEl.innerHTML = event.error;
         console.log(event);
-    }
+    };
 
     recognition.onend = (event) => {
         if (noRecognized) {
             errorEl.innerHTML = "Слово не распознано"
         }
-    }
+    };
 
 }
 

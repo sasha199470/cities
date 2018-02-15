@@ -1,12 +1,13 @@
 let speech = require('./speech.js');
 let socket = require('socket.io-client')('http://localhost:3000');
 
-// socket.on('connect', function(){});
+socket.on('status',(status) => console.log(status));
+socket.on('word', (word) => console.log(word));
 
 let inputBtn = document.getElementById('inputBtn'),
     inputEl = document.getElementById('input'),
     speakBtn = document.getElementById('speakBtn'),
-    errorEl = document.getElementById('error')
+    errorEl = document.getElementById('error');
 
 ymaps.ready(() => {
     let map = new ymaps.Map('map', {
@@ -14,11 +15,11 @@ ymaps.ready(() => {
         zoom: 2
     });
     map.controls.add(new ymaps.control.ZoomControl());
-    inputBtn.addEventListener("click", () => {
+    inputBtn.addEventListener('click', () => {
         inputCity(inputEl.value);
     });
 
-    inputEl.addEventListener("keyup", (e) => {
+    inputEl.addEventListener('keyup', (e) => {
         if (e.keyCode === 13) inputCity(inputEl.value);
     });
 

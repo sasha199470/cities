@@ -16,7 +16,11 @@ io.on('connection',  (socket) => {
     let citiesManager = new CitiesManager();
     socket.on('send city', (city) => {
         let status = citiesManager.inputCity(city);
-        message.wo
+        socket.emit('status', status);
+        if (Object.is(status.code,0)) {
+            let word = citiesManager.aiTurn();
+            socket.emit('word', word);
+        }
     });
     socket.on('disconnect', () => {
         console.log('user disconnected');

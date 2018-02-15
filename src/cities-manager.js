@@ -40,7 +40,7 @@ CitiesManager.prototype.inputCity = function(cityName)  {
 };
 CitiesManager.prototype.aiTurn = function() {
     let subList = cities[this._lastLetter] || [];
-    let cityName;
+    let cityName = "";
     for (let i = this._indexCities[key]; i < subList.length; i++) {
         if (!this._isMentioned(subList[i])) {
             cityName = subList[i];
