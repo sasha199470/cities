@@ -1,29 +1,30 @@
-let speech = require('./speech.js');
-let socket = require('socket.io-client')('http://localhost:3000');
+const speech = require('./speech.js');
+const socket = require('socket.io-client')('http://localhost:3000');
 
-let player = [];
-let computer = [];
+const player = [];
+const computer = [];
 
-let inputBtn = document.getElementById('inputBtn'),
+const inputBtn = document.getElementById('inputBtn'),
     inputEl = document.getElementById('input'),
     speakBtn = document.getElementById('speakBtn'),
     lastCityEl = document.getElementById('lastCity'),
     surrenderBtn = document.getElementById('surrender'),
-    listEl = document.getElementById('list'),
+    listPlayerEl = document.getElementById('player'),
+    listComputerEl = document.getElementById('computer'),
     errorEl = document.getElementById('error');
 
 ymaps.ready(() => {
     let city;
-    let map = new ymaps.Map('map', {
+    const map = new ymaps.Map('map', {
         center: [55.76, 37.64],
         zoom: 2
     });
     map.controls.add(new ymaps.control.ZoomControl());
-    socket.on('status',(status) => {
+    socket.on('status', (status) => {
         errorEl.innerHTML = "";
         switch (status.code) {
-            case 0 :{
-                addMarker(map,city);
+            case 0 : {
+                addMarker(map, city);
                 player.push(city);
             }
                 break;
@@ -34,9 +35,9 @@ ymaps.ready(() => {
     });
     socket.on('word', (word) => {
         if (word) {
-            inputEl.value = "";
+            inputEl.value = '';
             lastCityEl.innerHTML = word;
-            addMarker(map,word);
+            addMarker(map, word);
             computer.push(word);
         }
         else {
@@ -55,38 +56,42 @@ ymaps.ready(() => {
     });
 
 
-
 });
 
-function addMarker(map,cityName) {
+function addMarker(map, cityName) {
     ymaps.geocode(cityName)
         .then(res => {
                 try {
                     map.geoObjects.add(res.geoObjects.get(0));
                 }
-                catch(err) {
+                catch (err) {
                     console.log('Не нашелЬ');
                 }
             },
             err => console.log('Ошибка'));
 }
+
 speakBtn.addEventListener('click', () => speech(inputEl, errorEl));
-surrenderBtn.addEventListener('click',()=>{
+surrenderBtn.addEventListener('click', () => {
     endGame();
 });
 
 function inputCity(inputedCityName) {
     socket.emit('send city', inputedCityName);
 }
+
 function endGame() {
     inputBtn.disabled = true;
     socket.ondisconnect();
     if (player.length > computer.length) {
-        computer[computer.length] = "";
+        computer[computer.length] = '';
     }
-    let list = 'player computer <br>';
-    for (let i=0;i<player.length;i++) {
-        list += player[i] + " " + computer[i] + '<br>';
+    let listPlayer = '<b>player</b>' + '<br>';
+    let listComputer = '<b>computer</b>' + '<br>';
+    for (let i = 0; i < player.length; i++) {
+        listPlayer += player[i] + '<br>';
+        listComputer += computer[i] + '<br>';
     }
-    listEl.innerHTML = list;
+    listPlayerEl.innerHTML = listPlayer;
+    listComputerEl.innerHTML = listComputer;
 }

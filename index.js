@@ -1,11 +1,11 @@
-let express = require('express');
-let app = express();
-let http = require('http').Server(app);
-let io = require('socket.io')(http);
-let CitiesManager = require('./src/cities-manager.js');
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const CitiesManager = require('./src/cities-manager.js');
 
 
-let mainPage = `${__dirname}/front/index.html`;
+const mainPage = `${__dirname}/front/index.html`;
 
 app.get('/',  (req, res) => {
     res.sendFile(mainPage);
@@ -13,12 +13,12 @@ app.get('/',  (req, res) => {
 
 io.on('connection',  (socket) => {
 
-    let citiesManager = new CitiesManager();
+    const citiesManager = new CitiesManager();
     socket.on('send city', (city) => {
-        let status = citiesManager.inputCity(city);
+        const status = citiesManager.inputCity(city);
         socket.emit('status', status);
         if (Object.is(status.code,0)) {
-            let word = citiesManager.aiTurn();
+            const word = citiesManager.aiTurn();
             socket.emit('word', word);
         }
     });
@@ -29,5 +29,5 @@ io.on('connection',  (socket) => {
 http.listen(3000,  () => {
     console.log('listening on *:3000');
 });
-app.use("/static", express.static(`${__dirname}/front/js`));
-app.use("/static", express.static(`${__dirname}/front/css`))
+app.use('/static', express.static(`${__dirname}/front/js`));
+app.use('/static', express.static(`${__dirname}/front/css`));

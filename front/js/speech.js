@@ -3,24 +3,23 @@ var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
 function speech(inputEl, errorEl) {
-    errorEl.innerHTML = "";
+    errorEl.innerHTML = '';
     let noRecognized = true;
-    let recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognition();
     recognition.lang = 'ru-RU';
     recognition.start();
     recognition.onresult = (event) => {
-      inputEl.value = event.results[0][0].transcript;
+        inputEl.value = event.results[0][0].transcript;
         noRecognized = false;
     };
     recognition.onerror = (event) => {
         noRecognized = false;
         errorEl.innerHTML = event.error;
-        console.log(event);
     };
 
-    recognition.onend = (event) => {
+    recognition.onend = () => {
         if (noRecognized) {
-            errorEl.innerHTML = "Слово не распознано"
+            errorEl.innerHTML = 'Слово не распознано';
         }
     };
 
