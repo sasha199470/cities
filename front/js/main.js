@@ -25,7 +25,7 @@ ymaps.ready(() => {
         switch (status.code) {
             case 0 : {
                 addMarker(map, city);
-                player.push(city);
+                player.push(upperFirstLetter(city));
             }
                 break;
             default : {
@@ -35,10 +35,11 @@ ymaps.ready(() => {
     });
     socket.on('word', (word) => {
         if (word) {
+            const upperFirstWord = upperFirstLetter(word);
             inputEl.value = '';
-            lastCityEl.innerHTML = word;
-            addMarker(map, word);
-            computer.push(word);
+            lastCityEl.innerHTML = upperFirstWord;
+            addMarker(map, upperFirstWord);
+            computer.push(upperFirstWord);
         }
         else {
             errorEl.innerHTML = 'Вы выиграли';
@@ -78,6 +79,10 @@ surrenderBtn.addEventListener('click', () => {
 
 function inputCity(inputedCityName) {
     socket.emit('send city', inputedCityName);
+}
+
+function upperFirstLetter(str) {
+    return str[0].toUpperCase() + str.slice(1);
 }
 
 function endGame() {
