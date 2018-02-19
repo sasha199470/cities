@@ -1,8 +1,8 @@
 
-#Города
+# Города
 Реализация игры в города
 
-##Запуск
+## Запуск
 ```
 git clone https://github.com/sasha199470/cities.git 
 cd cities
